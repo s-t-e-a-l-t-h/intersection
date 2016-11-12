@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def lines_intersection_2d(pt1_xy, pt2_xy, pt3_xy, pt4_xy):
+def edge_intersection_2d(pt1_xy, pt2_xy, pt3_xy, pt4_xy):
     # return: tuple
     #       0: intersection_status:
     #               False: parallel
@@ -80,19 +80,19 @@ def lines_intersection_2d(pt1_xy, pt2_xy, pt3_xy, pt4_xy):
 
 # interception example in segment
 pt1, pt2, pt3, pt4 = [1.5, -.5], [1.5, 2.0], [1.5, 1.0], [1.0, 1.0]
-print(lines_intersection_2d(pt1, pt2, pt3, pt4))
+print(edge_intersection_2d(pt1, pt2, pt3, pt4))
 
 # interception example out of segment
 pt1, pt2, pt3, pt4 = [-1.5, -2.5], [1.0, 1.0], [1.0, 0.0], [2.0, 0.0]
-print(lines_intersection_2d(pt1, pt2, pt3, pt4))
+print(edge_intersection_2d(pt1, pt2, pt3, pt4))
 
 # identicall example
 pt1, pt2, pt3, pt4 = [-1.5, 0.0], [1.0, 0.0], [0.5, 0.0], [2.0, 0.0]
-print(lines_intersection_2d(pt1, pt2, pt3, pt4))
+print(edge_intersection_2d(pt1, pt2, pt3, pt4))
 
 # parallel example
 pt1, pt2, pt3, pt4 = [0.0, 0.0], [1.0, 0.0], [0.0, 0.5], [1.0, 0.5]
-print(lines_intersection_2d(pt1, pt2, pt3, pt4))
+print(edge_intersection_2d(pt1, pt2, pt3, pt4))
 
 # fig = plt.figure()
 # ax = fig.add_subplot(111, aspect="auto")
