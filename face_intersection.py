@@ -1,5 +1,6 @@
 import numpy as np
 import Plot as Plt
+
 try:
     from edge_intersection import edge_intersection_2d as ei
 except:
@@ -111,8 +112,8 @@ def face_intersection_2d(f0, f1):
 
     # if one edge is overllaping
     if (edge0[0] == 2 and edge1[0] == -1 and edge2[0] == 2) or (
-        edge0[0] == 2 and edge1[0] == 2 and edge2[0] == -1) or (
-        edge0[0] == -1 and edge1[0] == 2 and edge2[0] == 2):
+                        edge0[0] == 2 and edge1[0] == 2 and edge2[0] == -1) or (
+                        edge0[0] == -1 and edge1[0] == 2 and edge2[0] == 2):
 
         intersection = 0
         for i in range(-1, 2):
@@ -124,199 +125,232 @@ def face_intersection_2d(f0, f1):
             return 2, "EDGE_OVERLAPPING"
 
     if (edge0[0] == -1 and edge1[0] == 2 and edge2[0] == -1) or (
-        edge0[0] == -1 and edge1[0] == -1 and edge2[0] == 2) or (
-        edge0[0] == 2 and edge1[0] == -1 and edge2[0] == -1):
+                        edge0[0] == -1 and edge1[0] == -1 and edge2[0] == 2) or (
+                        edge0[0] == 2 and edge1[0] == -1 and edge2[0] == -1):
+
+        intersection = 0
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                edge_intersection = ei(f0[i], f0[i + 1], f1[j], f1[j + 1])[1]
+                if edge_intersection is True:
+                    intersection += 1
+
+        if intersection >= 6:
+            return 1, "INTERSECTING"
+
         return 2, "EDGE_OVERLAPPING"
 
     if ((edge0[0] == -1 and edge1[0] == 0 and edge2[0] == 2) or (
-         edge0[0] == -1 and edge1[0] == 2 and edge2[0] == 0) or (
-         edge0[0] == 0 and edge1[0] == -1 and edge2[0] == 2) or (
-         edge0[0] == 0 and edge1[0] == 2 and edge2[0] == -1) or (
-         edge0[0] == 2 and edge1[0] == -1 and edge2[0] == 0) or (
-         edge0[0] == 2 and edge1[0] == 0 and edge2[0] == -1)) or (
+                        edge0[0] == -1 and edge1[0] == 2 and edge2[0] == 0) or (
+                        edge0[0] == 0 and edge1[0] == -1 and edge2[0] == 2) or (
+                        edge0[0] == 0 and edge1[0] == 2 and edge2[0] == -1) or (
+                        edge0[0] == 2 and edge1[0] == -1 and edge2[0] == 0) or (
+                        edge0[0] == 2 and edge1[0] == 0 and edge2[0] == -1)) or (
 
-        (edge0[0] == -1 and edge1[0] == 0 and edge2[0] == -1) or (
-         edge0[0] == 0 and edge1[0] == -1 and edge2[0] == -1) or (
-         edge0[0] == -1 and edge1[0] == -1 and edge2[0] == 0)):
-
+                    (edge0[0] == -1 and edge1[0] == 0 and edge2[0] == -1) or (
+                                    edge0[0] == 0 and edge1[0] == -1 and edge2[0] == -1) or (
+                                edge0[0] == -1 and edge1[0] == -1 and edge2[0] == 0)):
         return -1, "TOUCHING"
 
     return 1, "INTERSECTING"
 
 
 # # not intersection example:
-    # faces = [[[0.0, 0.5, 0.0],
-    #           [1.0, 0.5, 0.0],
-    #           [0.0, 1.0, 0.0]],
-    #          [[0.0, 0.0, 0.0],
-    #           [1.0, 0.4, 0.0],
-    #           [0.0, -.7, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # not intersection example:
-    # faces = [[[0.0, 0.5, 0.0],
-    #           [1.0, 0.5, 0.0],
-    #           [0.0, 1.0, 0.0]],
-    #          [[0.0, 0.0, 0.0],
-    #           [1.0, 0.3, 0.0],
-    #           [0.0, 0.3, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # overllaping example:
-    # faces = [[[0.0, 0.5, 0.0],
-    #           [1.0, 0.5, 0.0],
-    #           [0.0, 1.0, 0.0]],
-    #          [[0.0, 0.0, 0.0],
-    #           [1.0, 0.5, 0.0],
-    #           [0.0, 0.5, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # overllaping example:
-    # faces = [[[0.0, 0.0, 0.0],
-    #           [1.0, 0.0, 0.0],
-    #           [0.5, 0.5, 0.0]],
-    #          [[0.0, 1.0, 0.0],
-    #           [1.0, 1.0, 0.0],
-    #           [1.0, 0.0, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # overllaping example:
-    # faces = [[[0.0, 0.0, 0.0],
-    #           [1.0, 0.0, 0.0],
-    #           [0.0, 1.0, 0.0]],
-    #          [[-1., 1.0, 0.0],
-    #           [0.0, 1.0, 0.0],
-    #           [0.0, 0.0, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # touching example
-    # faces = [[[0.0, 0.0, 0.0],
-    #           [1.0, 0.0, 0.0],
-    #           [0.0, 1.0, 0.0]],
-    #          [[0.0, 0.0, 0.0],
-    #           [0.0, -.5, 0.0],
-    #           [-.5, -.5, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # touching example
-    # faces = [[[0.0, 0.0, 0.0],
-    #           [1.0, 0.0, 0.0],
-    #           [0.0, 1.0, 0.0]],
-    #          [[0.0, 0.0, 0.0],
-    #           [-.1, -.5, 0.0],
-    #           [-.5, -.5, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # touching example
-    # faces = [[[0.0, 0.0, 0.0],
-    #           [1.0, 0.0, 0.0],
-    #           [0.0, 1.0, 0.0]],
-    #          [[0.0, 0.0, 0.0],
-    #           [-.5, 0.0, 0.0],
-    #           [-.5, -.5, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # touching example
-    # faces = [[[0.0, 0.0, 0.0],
-    #           [1.0, 0.0, 0.0],
-    #           [0.0, 1.0, 0.0]],
-    #          [[0.5, -.5, 0.0],
-    #           [-.5, 0.5, 0.0],
-    #           [-.5, -.5, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # intersection example
-    # faces = [[[0.0, 0.5, 0.0],
-    #           [1.0, 0.5, 0.0],
-    #           [0.0, 1.0, 0.0]],
-    #          [[0.0, 2.0, 0.0],
-    #           [1.0, 0.5, 0.0],
-    #           [0.0, 0.5, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # intersection example
-    # faces = [[[0.0, 0.5, 0.0],
-    #           [1.0, 0.5, 0.0],
-    #           [0.0, 1.0, 0.0]],
-    #          [[0.0, 0.5, 0.0],
-    #           [1.0, 0.5, 0.0],
-    #           [0.0, 1.0, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # # intersection example
-    # faces = [[[0.0, 0.0, 0.0],
-    #           [2.0, 0.0, 0.0],
-    #           [0.0, 2.0, 0.0]],
-    #          [[0.0, 0.0, 0.0],
-    #           [1.0, 0.0, 0.0],
-    #           [0.0, 1.0, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # intersection example
-    # faces = [[[0.0, 0.0, 0.0],
-    #           [2.0, 0.0, 0.0],
-    #           [0.0, 2.0, 0.0]],
-    #          [[0.5, .25, 0.0],
-    #           [1.0, 0.5, 0.0],
-    #           [0.5, 1.0, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    #
-    # # intersection example
-    # faces = [[[0.0, 0.0, 0.0],
-    #           [2.0, 0.0, 0.0],
-    #           [0.0, 2.0, 0.0]],
-    #          [[0.5, -.5, 0.0],
-    #           [1.0, -.5, 0.0],
-    #           [0.5, 1.0, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # intersection example
-    # faces = [[[0.0, 0.0, 0.0],
-    #           [2.0, 0.0, 0.0],
-    #           [0.0, 2.0, 0.0]],
-    #          [[0.5, -.5, 0.0],
-    #           [1.0, -.5, 0.0],
-    #           [0.5, 2.0, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
-    #
-    # # intersection example
-    # faces = [[[0.0, 0.0, 0.0],
-    #           [2.0, 0.0, 0.0],
-    #           [0.0, 2.0, 0.0]],
-    #          [[-.9, -.9, 0.0],
-    #           [-3., 3.5, 0.0],
-    #           [9.5, 1.0, 0.0]]]
-    # print(face_intersection_2d(f0=faces[0], f1=faces[1]))
-    # Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-    #             face_alpha=0.5, azim=-90, elev=90)
+# faces = [[[0.0, 0.5, 0.0],
+#           [1.0, 0.5, 0.0],
+#           [0.0, 1.0, 0.0]],
+#          [[0.0, 0.0, 0.0],
+#           [1.0, 0.4, 0.0],
+#           [0.0, -.7, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # not intersection example:
+# faces = [[[0.0, 0.5, 0.0],
+#           [1.0, 0.5, 0.0],
+#           [0.0, 1.0, 0.0]],
+#          [[0.0, 0.0, 0.0],
+#           [1.0, 0.3, 0.0],
+#           [0.0, 0.3, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # overllaping example:
+# faces = [[[0.0, 0.5, 0.0],
+#           [1.0, 0.5, 0.0],
+#           [0.0, 1.0, 0.0]],
+#          [[0.0, 0.0, 0.0],
+#           [1.0, 0.5, 0.0],
+#           [0.0, 0.5, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # overllaping example:
+# faces = [[[0.0, 0.0, 0.0],
+#           [1.0, 0.0, 0.0],
+#           [0.5, 0.5, 0.0]],
+#          [[0.0, 1.0, 0.0],
+#           [1.0, 1.0, 0.0],
+#           [1.0, 0.0, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # overllaping example:
+# faces = [[[0.0, 0.0, 0.0],
+#           [1.0, 0.0, 0.0],
+#           [0.0, 1.0, 0.0]],
+#          [[-1., 1.0, 0.0],
+#           [0.0, 1.0, 0.0],
+#           [0.0, 0.0, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # touching example
+# faces = [[[0.0, 0.0, 0.0],
+#           [1.0, 0.0, 0.0],
+#           [0.0, 1.0, 0.0]],
+#          [[0.0, 0.0, 0.0],
+#           [0.0, -.5, 0.0],
+#           [-.5, -.5, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # touching example
+# faces = [[[0.0, 0.0, 0.0],
+#           [1.0, 0.0, 0.0],
+#           [0.0, 1.0, 0.0]],
+#          [[0.0, 0.0, 0.0],
+#           [-.1, -.5, 0.0],
+#           [-.5, -.5, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # touching example
+# faces = [[[0.0, 0.0, 0.0],
+#           [1.0, 0.0, 0.0],
+#           [0.0, 1.0, 0.0]],
+#          [[0.0, 0.0, 0.0],
+#           [-.5, 0.0, 0.0],
+#           [-.5, -.5, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # touching example
+# faces = [[[0.0, 0.0, 0.0],
+#           [1.0, 0.0, 0.0],
+#           [0.0, 1.0, 0.0]],
+#          [[0.5, -.5, 0.0],
+#           [-.5, 0.5, 0.0],
+#           [-.5, -.5, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # intersection example
+# faces = [[[0.0, 0.5, 0.0],
+#           [1.0, 0.5, 0.0],
+#           [0.0, 1.0, 0.0]],
+#          [[0.0, 2.0, 0.0],
+#           [1.0, 0.5, 0.0],
+#           [0.0, 0.5, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # intersection example
+# faces = [[[0.0, 0.5, 0.0],
+#           [1.0, 0.5, 0.0],
+#           [0.0, 1.0, 0.0]],
+#          [[0.0, 0.5, 0.0],
+#           [1.0, 0.5, 0.0],
+#           [0.0, 1.0, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # # intersection example
+# faces = [[[0.0, 0.0, 0.0],
+#           [2.0, 0.0, 0.0],
+#           [0.0, 2.0, 0.0]],
+#          [[0.0, 0.0, 0.0],
+#           [1.0, 0.0, 0.0],
+#           [0.0, 1.0, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # intersection example
+# faces = [[[0.0, 0.0, 0.0],
+#           [2.0, 0.0, 0.0],
+#           [0.0, 2.0, 0.0]],
+#          [[0.5, .25, 0.0],
+#           [1.0, 0.5, 0.0],
+#           [0.5, 1.0, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+#
+# # intersection example
+# faces = [[[0.0, 0.0, 0.0],
+#           [2.0, 0.0, 0.0],
+#           [0.0, 2.0, 0.0]],
+#          [[0.5, -.5, 0.0],
+#           [1.0, -.5, 0.0],
+#           [0.5, 1.0, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # intersection example
+# faces = [[[0.0, 0.0, 0.0],
+#           [2.0, 0.0, 0.0],
+#           [0.0, 2.0, 0.0]],
+#          [[0.5, -.5, 0.0],
+#           [1.0, -.5, 0.0],
+#           [0.5, 2.0, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+#
+# # intersection example
+# faces = [[[0.0, 0.0, 0.0],
+#           [2.0, 0.0, 0.0],
+#           [0.0, 2.0, 0.0]],
+#          [[-.9, -.9, 0.0],
+#           [-3., 3.5, 0.0],
+#           [9.5, 1.0, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+
+
+# intersection example
+# faces = [[[6.66133815e-16, 0.00000000e+00, 0.0],
+#          [-3.08718461e-02, -3.07471026e-01, 0.0],
+#          [-3.36831897e-01, -2.61550477e-01, 0.0]],
+#         [[6.66133815e-16, 0.00000000e+00, 0.0],
+#          [-2.90985300e-01, 4.36730376e-02, 0.0],
+#          [-3.08718461e-02, -3.07471026e-01, 0.0]]]
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+
+
+faces = [[[0.0, 0.0, 0.0],
+          [-0.2909853, 0.04367304, 0.0],
+          [-0.03087185, -0.30747103, 0.0]],
+         [[0.0, 0.0, 0.0],
+          [-0.03087185, -0.30747103, 0.0],
+          [-0.3368319, -0.26155048, 0.0]]]
+Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+            face_alpha=0.5, azim=-90, elev=90)
+print(face_intersection_2d(f0=faces[0], f1=faces[1]))
