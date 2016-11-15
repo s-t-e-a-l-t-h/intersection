@@ -89,71 +89,71 @@ def segment_intersection_2d(p0, p1, t0, t1, t2):
     # otherwise we're intersecting with at least one edge
     return 1, "INTERSECTING"
 
-
-def face_intersection_2d(f0, f1):
-    # test each side (face segment) on intersection
-    edge0 = segment_intersection_2d(p0=f0[0], p1=f0[1], t0=f1[0], t1=f1[1], t2=f1[2])
-    edge1 = segment_intersection_2d(p0=f0[1], p1=f0[2], t0=f1[0], t1=f1[1], t2=f1[2])
-    edge2 = segment_intersection_2d(p0=f0[2], p1=f0[0], t0=f1[0], t1=f1[1], t2=f1[2])
-    # print(edge0, edge1, edge2)
-
-    # if segments are outside of triangle
-    if edge0[0] == 0 and edge1[0] == 0 and edge2[0] == 0:
-        # test if triangle is not inside of other because if function segment_intersection_2d() return 0
-        # because edge is not intersection triangle, but it is inside
-        face = [f0, f1]
-        for idx in range(-1, 1):
-            f, inside = face[idx], 0
-            for vertice in f:
-                inside += 1 if point_in_triangle(vertice, face[idx + 1][0], face[idx + 1][1], face[idx + 1][2]) else 0
-            if inside == 3:
-                return 1, "INTERSECTING"
-        return 0, "NOT_INTERSECTING"
-
-    # if one edge is overllaping
-    if (edge0[0] == 2 and edge1[0] == -1 and edge2[0] == 2) or (
-                        edge0[0] == 2 and edge1[0] == 2 and edge2[0] == -1) or (
-                        edge0[0] == -1 and edge1[0] == 2 and edge2[0] == 2):
-
-        intersection = 0
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                edge_intersection = ei(f0[i], f0[i + 1], f1[j], f1[j + 1])[1]
-                if edge_intersection is True:
-                    intersection += 1
-        if intersection < 6:
-            return 2, "EDGE_OVERLAPPING"
-
-    if (edge0[0] == -1 and edge1[0] == 2 and edge2[0] == -1) or (
-                        edge0[0] == -1 and edge1[0] == -1 and edge2[0] == 2) or (
-                        edge0[0] == 2 and edge1[0] == -1 and edge2[0] == -1):
-
-        intersection = 0
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                edge_intersection = ei(f0[i], f0[i + 1], f1[j], f1[j + 1])[1]
-                if edge_intersection is True:
-                    intersection += 1
-
-        if intersection >= 6:
-            return 1, "INTERSECTING"
-
-        return 2, "EDGE_OVERLAPPING"
-
-    if ((edge0[0] == -1 and edge1[0] == 0 and edge2[0] == 2) or (
-                        edge0[0] == -1 and edge1[0] == 2 and edge2[0] == 0) or (
-                        edge0[0] == 0 and edge1[0] == -1 and edge2[0] == 2) or (
-                        edge0[0] == 0 and edge1[0] == 2 and edge2[0] == -1) or (
-                        edge0[0] == 2 and edge1[0] == -1 and edge2[0] == 0) or (
-                        edge0[0] == 2 and edge1[0] == 0 and edge2[0] == -1)) or (
-
-                    (edge0[0] == -1 and edge1[0] == 0 and edge2[0] == -1) or (
-                                    edge0[0] == 0 and edge1[0] == -1 and edge2[0] == -1) or (
-                                edge0[0] == -1 and edge1[0] == -1 and edge2[0] == 0)):
-        return -1, "TOUCHING"
-
-    return 1, "INTERSECTING"
-
+# !!!!!!!!!!!!!!!!!!!!!!! NOT WORKING PROPERLY !!!!!!!!!!!!!!!!!!!!!
+# def face_intersection_2d(f0, f1):
+#     # test each side (face segment) on intersection
+#     edge0 = segment_intersection_2d(p0=f0[0], p1=f0[1], t0=f1[0], t1=f1[1], t2=f1[2])
+#     edge1 = segment_intersection_2d(p0=f0[1], p1=f0[2], t0=f1[0], t1=f1[1], t2=f1[2])
+#     edge2 = segment_intersection_2d(p0=f0[2], p1=f0[0], t0=f1[0], t1=f1[1], t2=f1[2])
+#     # print(edge0, edge1, edge2)
+#
+#     # if segments are outside of triangle
+#     if edge0[0] == 0 and edge1[0] == 0 and edge2[0] == 0:
+#         # test if triangle is not inside of other because if function segment_intersection_2d() return 0
+#         # because edge is not intersection triangle, but it is inside
+#         face = [f0, f1]
+#         for idx in range(-1, 1):
+#             f, inside = face[idx], 0
+#             for vertice in f:
+#                 inside += 1 if point_in_triangle(vertice, face[idx + 1][0], face[idx + 1][1], face[idx + 1][2]) else 0
+#             if inside == 3:
+#                 return 1, "INTERSECTING"
+#         return 0, "NOT_INTERSECTING"
+#
+#     # if one edge is overllaping
+#     if (edge0[0] == 2 and edge1[0] == -1 and edge2[0] == 2) or (
+#                         edge0[0] == 2 and edge1[0] == 2 and edge2[0] == -1) or (
+#                         edge0[0] == -1 and edge1[0] == 2 and edge2[0] == 2):
+#
+#         intersection = 0
+#         for i in range(-1, 2):
+#             for j in range(-1, 2):
+#                 edge_intersection = ei(f0[i], f0[i + 1], f1[j], f1[j + 1])[1]
+#                 if edge_intersection is True:
+#                     intersection += 1
+#         if intersection < 6:
+#             return 2, "EDGE_OVERLAPPING"
+#
+#     if (edge0[0] == -1 and edge1[0] == 2 and edge2[0] == -1) or (
+#                         edge0[0] == -1 and edge1[0] == -1 and edge2[0] == 2) or (
+#                         edge0[0] == 2 and edge1[0] == -1 and edge2[0] == -1):
+#
+#         intersection = 0
+#         for i in range(-1, 2):
+#             for j in range(-1, 2):
+#                 edge_intersection = ei(f0[i], f0[i + 1], f1[j], f1[j + 1])[1]
+#                 if edge_intersection is True:
+#                     intersection += 1
+#
+#         if intersection >= 6:
+#             return 1, "INTERSECTING"
+#
+#         return 2, "EDGE_OVERLAPPING"
+#
+#     if ((edge0[0] == -1 and edge1[0] == 0 and edge2[0] == 2) or (
+#                         edge0[0] == -1 and edge1[0] == 2 and edge2[0] == 0) or (
+#                         edge0[0] == 0 and edge1[0] == -1 and edge2[0] == 2) or (
+#                         edge0[0] == 0 and edge1[0] == 2 and edge2[0] == -1) or (
+#                         edge0[0] == 2 and edge1[0] == -1 and edge2[0] == 0) or (
+#                         edge0[0] == 2 and edge1[0] == 0 and edge2[0] == -1)) or (
+#
+#                     (edge0[0] == -1 and edge1[0] == 0 and edge2[0] == -1) or (
+#                                     edge0[0] == 0 and edge1[0] == -1 and edge2[0] == -1) or (
+#                                 edge0[0] == -1 and edge1[0] == -1 and edge2[0] == 0)):
+#         return -1, "TOUCHING"
+#
+#     return 1, "INTERSECTING"
+#
 
 # # not intersection example:
 # faces = [[[0.0, 0.5, 0.0],
@@ -345,12 +345,12 @@ def face_intersection_2d(f0, f1):
 #             face_alpha=0.5, azim=-90, elev=90)
 
 
-faces = [[[0.0, 0.0, 0.0],
-          [-0.2909853, 0.04367304, 0.0],
-          [-0.03087185, -0.30747103, 0.0]],
-         [[0.0, 0.0, 0.0],
-          [-0.03087185, -0.30747103, 0.0],
-          [-0.3368319, -0.26155048, 0.0]]]
-Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
-            face_alpha=0.5, azim=-90, elev=90)
-print(face_intersection_2d(f0=faces[0], f1=faces[1]))
+# faces = [[[0.0, 0.0, 0.0],
+#           [-0.2909853, 0.04367304, 0.0],
+#           [-0.03087185, -0.30747103, 0.0]],
+#          [[0.0, 0.0, 0.0],
+#           [-0.03087185, -0.30747103, 0.0],
+#           [-0.3368319, -0.26155048, 0.0]]]
+# Plt.plot_3d(faces=[faces], faces_view=True, normals_view=False, points_view=False, face_color=[["r", "g"]],
+#             face_alpha=0.5, azim=-90, elev=90)
+# print(face_intersection_2d(f0=faces[0], f1=faces[1]))
