@@ -90,6 +90,7 @@ def segment_intersection_2d(p0, p1, t0, t1, t2):
     return 1, "INTERSECTING"
 
 # !!!!!!!!!!!!!!!!!!!!!!! NOT WORKING PROPERLY !!!!!!!!!!!!!!!!!!!!!
+# !!!!!!!!!!!!!!!!!!!!!!! USE MY separating_axis_theorem code !!!!!!
 # def face_intersection_2d(f0, f1):
 #     # test each side (face segment) on intersection
 #     edge0 = segment_intersection_2d(p0=f0[0], p1=f0[1], t0=f1[0], t1=f1[1], t2=f1[2])
